@@ -102,8 +102,12 @@
     - name: "UFW - Allow HTTP on port {{ http_port }}"
       ufw:
         rule: allow
-        port: "{{ http_port }}"
+#        port: "{{ http_port }}"
+        src: "{{ item }}"
         proto: tcp
+      loop:
+       - "{{ http_port }}"
+       - "{{ https_port }}"
       tags: [ system ]
 
   # WordPress Configuration
