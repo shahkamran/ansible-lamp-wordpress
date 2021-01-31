@@ -1,5 +1,6 @@
 # Wordpress on Ubuntu
 
+
 This playbook will install a WordPress website along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in vars/default.yml` variable file, it wil also create a virtualhost on server.
 
 This has been created for Ubuntu 18.04 LTS and will be adopted for other popular Linux Distributions in future.
