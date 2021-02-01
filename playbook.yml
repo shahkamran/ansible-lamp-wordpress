@@ -91,6 +91,16 @@
         login_password: "{{ mysql_root_password }}"
       tags: [ mysql ]
 
+    - name: Delete MySQL user for WordPress
+      mysql_user:
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_password }}"
+        priv: "{{ mysql_db }}.*:ALL"
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [ mysql ]
+
     - name: Create MySQL user for WordPress
       mysql_user:
         name: "{{ mysql_user }}"
