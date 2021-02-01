@@ -53,12 +53,9 @@ https_port: "443"
 ```command
 ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
 ```
-
-[target] = Host name or id from the list hosts defined in inventory file
-
-[inventory file] = This is the inventory.ini file with list of your hosts which have access configured in ~/.ssh/config file.
-
-[remote user] = Name of user to run the playbook as.
+- [target] = Host name or id from the list hosts defined in inventory file
+- [inventory file] = This is the inventory.ini file with list of your hosts which have access configured in ~/.ssh/config file.
+- [remote user] = Name of user to run the playbook as.
 
 ### 4. Enable Wordpress Multisite Network
 
