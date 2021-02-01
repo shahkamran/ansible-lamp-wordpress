@@ -36,14 +36,14 @@ nano vars/default.yml
 php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
 
 #MySQL Settings
-mysql_root_password: "mysql_root_password"
+mysql_root_password: "mysql_rOOt_password"
 mysql_db: "wordpress"
-mysql_user: "sammy"
-mysql_password: "password"
+mysql_user: "user_name"
+mysql_password: "secret_passw0rd"
 
 #HTTP Settings
-http_host: "your_domain"
-http_conf: "your_domain.conf"
+http_host: "example.com"
+http_conf: "example.com.conf"
 http_port: "80"
 https_port: "443"
 ```
