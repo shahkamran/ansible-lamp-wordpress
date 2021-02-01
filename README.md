@@ -1,7 +1,6 @@
-# Wordpress on Ubuntu
+# Wordpress Multisite (Network) with LAMP stack on Ubuntu
 
-
-This playbook will install a WordPress website along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in vars/default.yml` variable file, it wil also create a virtualhost on server.
+This playbook will install a WordPress multisite network site along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in vars/default.yml` variable file, it wil also create a virtualhost on server.
 
 This has been created for Ubuntu 18.04 LTS and will be adopted for other popular Linux Distributions in future.
 
@@ -46,6 +45,7 @@ mysql_password: "password"
 http_host: "your_domain"
 http_conf: "your_domain.conf"
 http_port: "80"
+https_port: "443"
 ```
 
 ### 3. Run the Playbook
@@ -53,3 +53,9 @@ http_port: "80"
 ```command
 ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
 ```
+
+[target] = Host name or id from the list hosts defined in inventory file
+
+[inventory file] = This is the inventory.ini file with list of your hosts which have access configured in ~/.ssh/config file.
+
+[remote user] = Name of user to run the playbook as.
