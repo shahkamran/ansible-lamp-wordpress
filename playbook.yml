@@ -58,6 +58,9 @@
   # MySQL Configuration
     - name: Set the root password
       mysql_user:
+        check_implicit_admin: yes
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
         name: root
         password: "{{ mysql_root_password }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
@@ -102,13 +105,18 @@
     - name: "UFW - Allow HTTP on port {{ http_port }}"
       ufw:
         rule: allow
-#        port: "{{ http_port }}"
-        src: "{{ item }}"
+        port: "{{ http_port }}"
         proto: tcp
-      loop:
-       - "{{ http_port }}"
-       - "{{ https_port }}"
       tags: [ system ]
+
+    - name: "UFW - Allow HTTP on port {{ https_port }}"
+      ufw:
+        rule: allow
+        port: "{{ https_port }}"
+        proto: tcp
+      tags: [ system ]
+
+
 
   # WordPress Configuration
     - name: Download and unpack latest WordPress
