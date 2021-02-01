@@ -23,8 +23,12 @@ Quickstart guide for those already familiar with Ansible:
 ```shell
 git clone https://github.com/shahkamran/ansible-lamp-wordpress.git
 ```
+### 2. Set up Systems Inventory and Access
+* Move .ssh/config file to your ~/.ssh/config and make necessary changes to set up passwordless ssh key access to all systems.
+* Update inventory.ini file with hosts IDs matching with config file above.
+* If you do not have Python installed on the hosts you may also have to install it on individual hosts.
 
-### 2. Customize Options
+### 3. Customize Options
 
 ```shell
 nano vars/default.yml
@@ -48,7 +52,7 @@ http_port: "80"
 https_port: "443"
 ```
 
-### 3. Run the Playbook
+### 4. Run the Playbook
 
 ```command
 ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
@@ -57,7 +61,7 @@ ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
 - [inventory file] = This is the inventory.ini file with list of your hosts which have access configured in ~/.ssh/config file.
 - [remote user] = Name of user to run the playbook as.
 
-### 4. Enable Wordpress Multisite Network
+### 5. Enable Wordpress Multisite Network
 
 * Go to your website and set up Wordpress intial install.
 * Go to Tools - Network Setup (http://example.com/wp-admin/network.php)
