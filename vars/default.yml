@@ -4,12 +4,12 @@ php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'p
 
 #MySQL Settings
 mysql_root_password: "mysql_rOOt_password"
-mysql_db: "db_wordpress"
-mysql_user: "db_user_name"
-mysql_password: "db_secret_passw0rd"
+mysql_db: "wordpress"
+mysql_user: "user_name"
+mysql_password: "secret_passw0rd"
 
 #HTTP Settings
-http_host: "ubs"
-http_conf: "ubs.conf"
+http_host: "example.com"
+http_conf: "example.conf"
 http_port: "80"
 https_port: "443"
