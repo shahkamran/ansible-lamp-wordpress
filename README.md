@@ -59,11 +59,12 @@ ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
 
 ### 4. Enable Wordpress Multisite Network
 
-Go to your website and set up Wordpress intial install.
-Go to Tools - Network Setup (http://example.com/wp-admin/network.php)
-Select one of the two methods and run Install
-Follow the instructions to add additional definitions to /var/www/example.com/wordpress/wp-config.php and /var/www/example.com/wordpress/.htaccess files.
-Restart Apache (service apache2 restart).
-Log in to your site again and look for Network Admin under My Sites located in top menu.
+* Go to your website and set up Wordpress intial install.
+* Go to Tools - Network Setup (http://example.com/wp-admin/network.php)
+* Select one of the two methods and run Install
+* Follow the instructions to add additional definitions to /var/www/example.com/wordpress/wp-config.php and /var/www/example.com/wordpress/.htaccess files.
+* Restart Apache (service apache2 restart).
+* Log in to your site again and look for Network Admin under My Sites located in top menu.
 
-Well done!
+
+You should now be up and running. Well done!
