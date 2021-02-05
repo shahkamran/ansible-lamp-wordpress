@@ -1,4 +1,4 @@
-# Ansible provisioning of Wordpress Multisite (Network) with LAMP stack on Ubuntu
+# Provision Wordpress Multisite (Network) with LAMP stack using Ansible Playbook (on Ubuntu)
 
 This playbook will install a WordPress multisite network site along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in vars/default.yml` variable file, it wil also create a virtualhost on server.
 
