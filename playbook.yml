@@ -24,7 +24,12 @@
       tags: [ system ]
 
   # Apache Configuration
-    - name: Create document root
+    - name: Check if Document root exists
+      stat:
+        path: "/var/www/{{ http_host }}"
+      register: doc_root
+
+    - name: Create document root (if does not exist)
       file:
         path: "/var/www/{{ http_host }}"
         state: directory
@@ -32,6 +37,12 @@
         group: "www-data"
         mode: '0755'
       tags: [ apache ]
+      when: not doc_root.state.exist
+
+    - name: Check if Apache VirtualHost exists
+      stat:
+        path: "/etc/apache2/sites-available/{{ http_conf }}"
+      register: virtual_host
 
     - name: Set up Apache VirtualHost
       template:
@@ -39,6 +50,7 @@
         dest: "/etc/apache2/sites-available/{{ http_conf }}"
       notify: Reload Apache
       tags: [ apache ]
+      when: not virtual_host.state.exist
 
     - name: Enable rewrite module
       shell: /usr/sbin/a2enmod rewrite
@@ -56,7 +68,7 @@
       tags: [ apache ]
 
   # MySQL Configuration
-    - name: Set the root password
+    - name: Set the MySQL root password
       mysql_user:
         check_implicit_admin: yes
         login_user: root
@@ -66,7 +78,7 @@
         login_unix_socket: /var/run/mysqld/mysqld.sock
       tags: [ mysql, mysql-root ]
 
-    - name: Remove all anonymous user accounts
+    - name: Remove all anonymous MySQL user accounts
       mysql_user:
         name: ''
         host_all: yes
@@ -83,23 +95,29 @@
         login_password: "{{ mysql_root_password }}"
       tags: [ mysql ]
 
-    - name: Creates database for WordPress
+      - name: Check if MySQL database exists
+        shell: mysql -e 'SHOW DATABASES;' --user=root --password="{{ mysql_root_password }}" | grep -c {{ mysql_db }}
+        register: dbstatus
+        failed_when: dbstatus.rc == 1 or dbstatus.rc >= 2
+
+    - name: Creates MySQL database for WordPress, if not present
       mysql_db:
         name: "{{ mysql_db }}"
         state: present
         login_user: root
         login_password: "{{ mysql_root_password }}"
       tags: [ mysql ]
+      when: dbstatus.stdout == "0"
 
-    - name: Delete MySQL user for WordPress
-      mysql_user:
-        name: "{{ mysql_user }}"
-        password: "{{ mysql_password }}"
-        priv: "{{ mysql_db }}.*:ALL"
-        state: absent
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [ mysql ]
+#    - name: Delete MySQL user for WordPress
+#      mysql_user:
+#        name: "{{ mysql_user }}"
+#        password: "{{ mysql_password }}"
+#        priv: "{{ mysql_db }}.*:ALL"
+#        state: absent
+#        login_user: root
+#        login_password: "{{ mysql_root_password }}"
+#      tags: [ mysql ]
 
     - name: Create MySQL user for WordPress
       mysql_user:
@@ -110,6 +128,7 @@
         login_user: root
         login_password: "{{ mysql_root_password }}"
       tags: [ mysql ]
+      when: dbstatus.stdout == "0"
 
   # UFW Configuration
     - name: "UFW - Allow HTTP on port {{ http_port }}"
