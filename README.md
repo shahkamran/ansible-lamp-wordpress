@@ -13,7 +13,7 @@ This has been created for Ubuntu 18.04 LTS and will be adopted for other popular
 - `mysql_password`: The password for the new MySQL user.
 - `http_host`: Your domain name.
 - `http_conf`: The name of the configuration file that will be created within Apache.
-- `http_port`: HTTP port for this virtual host, where `80` is the default. 
+- `http_port`: HTTP port for this virtual host, where `80` is the default.
 
 ## Running this Playbook
 
@@ -69,6 +69,10 @@ ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
 * Follow the instructions to add additional definitions to /var/www/example.com/wordpress/wp-config.php and /var/www/example.com/wordpress/.htaccess files.
 * Restart Apache (service apache2 restart).
 * Log in to your site again and look for Network Admin under My Sites located in top menu.
+
+### 6. Troubleshooting
+* If you see below error, you do not have Python installed on remote system.
+```fatal: [host-01]: FAILED! => {"changed": false, "module_stderr": "Shared connection to <target> closed.\r\n", "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n", "msg": "MODULE FAILURE", "rc": 127}```
 
 
 You should now be up and running. Well done!

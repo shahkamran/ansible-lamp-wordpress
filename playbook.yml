@@ -10,16 +10,16 @@
 
   tasks:
     - name: Install prerequisites
-      apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
+      apt: name=aptitude state=latest force_apt_get=yes # update_cache=yes
       tags: [ system ]
 
     - name: Install LAMP Packages
-      apt: name={{ item }} update_cache=yes state=latest
+      apt: name={{ item }} state=latest # update_cache=yes
       loop: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
       tags: [ system ]
 
     - name: Install PHP Extensions
-      apt: name={{ item }} update_cache=yes state=latest
+      apt: name={{ item }} state=latest # update_cache=yes
       loop: "{{ php_modules }}"
       tags: [ system ]
 
@@ -29,7 +29,7 @@
         path: "/var/www/{{ http_host }}"
       register: doc_root
 
-    - name: Create document root (if does not exist)
+    - name: Create document root if it does not exist
       file:
         path: "/var/www/{{ http_host }}"
         state: directory
@@ -37,7 +37,7 @@
         group: "www-data"
         mode: '0755'
       tags: [ apache ]
-      when: not doc_root.state.exist
+      when: not doc_root.stat.exists
 
     - name: Check if Apache VirtualHost exists
       stat:
@@ -50,7 +50,7 @@
         dest: "/etc/apache2/sites-available/{{ http_conf }}"
       notify: Reload Apache
       tags: [ apache ]
-      when: not virtual_host.state.exist
+      when: not virtual_host.stat.exists
 
     - name: Enable rewrite module
       shell: /usr/sbin/a2enmod rewrite
@@ -61,6 +61,7 @@
       shell: /usr/sbin/a2ensite {{ http_conf }}
       notify: Reload Apache
       tags: [ apache ]
+      when: not virtual_host.stat.exists
 
     - name: Disable default Apache site
       shell: /usr/sbin/a2dissite 000-default.conf
@@ -95,10 +96,10 @@
         login_password: "{{ mysql_root_password }}"
       tags: [ mysql ]
 
-      - name: Check if MySQL database exists
-        shell: mysql -e 'SHOW DATABASES;' --user=root --password="{{ mysql_root_password }}" | grep -c {{ mysql_db }}
-        register: dbstatus
-        failed_when: dbstatus.rc == 1 or dbstatus.rc >= 2
+    - name: Check if MySQL database exists
+      shell: mysql -e 'SHOW DATABASES;' --user=root --password="{{ mysql_root_password }}" | grep -c {{ mysql_db }}
+      register: dbstatus
+      failed_when: dbstatus.rc == 1 or dbstatus.rc >= 2
 
     - name: Creates MySQL database for WordPress, if not present
       mysql_db:
@@ -153,7 +154,7 @@
         remote_src: yes
         creates: "/var/www/{{ http_host }}/wordpress"
       tags: [ wordpress ]
-      when: not doc_root.state.exist
+      when: not doc_root.stat.exists
 
     - name: Set ownership
       file:
