@@ -145,8 +145,6 @@
         proto: tcp
       tags: [ system ]
 
-
-
   # WordPress Configuration
     - name: Download and unpack latest WordPress
       unarchive:
@@ -155,6 +153,7 @@
         remote_src: yes
         creates: "/var/www/{{ http_host }}/wordpress"
       tags: [ wordpress ]
+      when: not doc_root.state.exist
 
     - name: Set ownership
       file:
