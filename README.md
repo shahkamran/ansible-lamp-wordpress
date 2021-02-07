@@ -1,6 +1,6 @@
 # Provision Wordpress Multisite (Network) with LAMP stack using Ansible Playbook (on Ubuntu)
 
-This playbook will install a WordPress multisite network site along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in vars/default.yml` variable file, it wil also create a virtualhost on server.
+This playbook will install a WordPress multisite network site along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in group_vars/all` variable file, it wil also create a virtualhost on server.
 
 This has been created for Ubuntu 18.04 LTS and will be adopted for other popular Linux Distributions in future.
 
@@ -24,14 +24,18 @@ Quickstart guide for those already familiar with Ansible:
 git clone https://github.com/shahkamran/ansible-lamp-wordpress.git
 ```
 ### 2. Set up Systems Inventory and Access
-* Move .ssh/config file to your ~/.ssh/config and make necessary changes to set up passwordless ssh key access to all systems.
+* Move .ssh/config file to your ~/.ssh/config.
 * Update inventory.ini file with hosts IDs matching with config file above.
-* If you do not have Python installed on the hosts you may also have to install it on individual hosts.
+* Configure ssh key access to all target systems so that ssh works without any password from a trusted computer.
+* The account set up in config file and used for connectivity to hosts should have sudo access and should be set up with passwordless sudo. If the sudo commands ask for password for the user you can amend sudo configuration by running ```sudo visudo``` and modifying ```#%sudo	ALL=(ALL:ALL) ALL``` to ```%sudo  ALL=(ALL:ALL) NOPASSWD: ALL``` on all destination hosts.
+* Install Python3 on all target systems.
+
+```ansible hosts -b -m raw  -a "apt update && apt install python3 -y" -i inventory.ini```
 
 ### 3. Customize Options
 
 ```shell
-nano vars/default.yml
+nano group_vars/all
 ```
 
 ```yml
