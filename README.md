@@ -1,6 +1,6 @@
 # Provision Wordpress Multisite (Network) with LAMP stack using Ansible Playbook (on Ubuntu)
 
-This playbook will install a WordPress multisite network site along with LAMP stack includig Apache, MySQL & PHP on a Ubuntu instance. Based on options set in group_vars/all variable file, it wil also create a virtualhost on server.
+This playbook will install a WordPress multisite network site along with LAMP stack including Apache, MySQL & PHP on a Ubuntu instance. Based on options set in the group_vars/all variable file, it will also create a virtualhost on the server when you run it for the first time. You can run this again and it will re-apply only missing components or some settings such as permissions.
 
 This Ansible playbook has been tested on destination hosts running following Linux distributions but can be easily adopted for other Linux distributions.
 
@@ -81,11 +81,13 @@ ansible-playbook -l [target] -i [inventory file] -u [remote user] playbook.yml
 * Select one of the two methods and run Install
 * Follow the instructions to add additional definitions to /var/www/example.com/wordpress/wp-config.php and /var/www/example.com/wordpress/.htaccess files.
 * Restart Apache (service apache2 restart).
-* Log in to your site again and look for Network Admin under My Sites located in top menu.
+* Log in to your site again and look for Network Admin under My Sites located in the top menu.
 
 ## 7. Troubleshooting
-* If you see below error, you do not have Python installed on remote system.
+* If you see the error below, you do not have Python installed on the remote system.
 ```fatal: [host-01]: FAILED! => {"changed": false, "module_stderr": "Shared connection to <target> closed.\r\n", "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n", "msg": "MODULE FAILURE", "rc": 127}```
 
+## 8. Disclaimer
+* Do not apply to a production environment without testing and understanding exactly how this repository and playbooks work.
 
 You should now be up and running. Well done!
