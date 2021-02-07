@@ -65,6 +65,8 @@ http_port: "80"
 https_port: "443"
 ```
 
+* If you are running the playbook again and wish to run a specific section, you can comment out the roles that you do not want to run in the main.yml file in the root folder of this repository.
+
 ## 5. Run the Playbook
 
 ```command
