@@ -16,7 +16,7 @@ pip install ansible
 ```
 
 ### Set up Systems Inventory and Access
-* Move .ssh/config file to your ~/.ssh/config.
+* Move templates/.ssh/config file to your ~/.ssh/config.
 * Update inventory.ini file with hosts IDs matching with config file above.
 * Configure ssh key access to all target systems so that ssh works without any password from a trusted computer.
 * The account set up in config file and used for connectivity to hosts should have sudo access and should be set up with passwordless sudo. If the sudo commands ask for password for the user you can amend sudo configuration by running ```sudo visudo``` and modifying ```#%sudo	ALL=(ALL:ALL) ALL``` to ```%sudo  ALL=(ALL:ALL) NOPASSWD: ALL``` on all destination hosts.
