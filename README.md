@@ -36,7 +36,7 @@ pip install ansible
 - `http_conf`: The name of the configuration file that will be created within Apache.
 - `http_port`: HTTP port for this virtual host, where `80` is the default.
 
-### Running this Playbook
+# Running this Playbook
 
 Quickstart guide for those already familiar with Ansible:
 
