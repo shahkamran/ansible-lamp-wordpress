@@ -1,0 +1,14 @@
+---
+- name: "UFW - Allow HTTP on port {{ http_port }}"
+  ufw:
+    rule: allow
+    port: "{{ http_port }}"
+    proto: tcp
+  tags: [system]
+
+- name: "UFW - Allow HTTP on port {{ https_port }}"
+  ufw:
+    rule: allow
+    port: "{{ https_port }}"
+    proto: tcp
+  tags: [system]

@@ -1,0 +1,35 @@
+---
+# System Settings
+# lamp_modules: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
+# php_modules: ['php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip']
+
+lamp_modules_list:
+  - apache2
+  - mysql-server
+  - python3-pymysql
+  - php
+  - php-mysql
+  - libapache2-mod-php
+
+php_modules_list:
+  - php-curl
+  - php-gd
+  - php-mbstring
+  - php-xml
+  - php-xmlrpc
+  - php-soap
+  - php-intl
+  - php-zip
+
+
+# MySQL Settings
+mysql_root_password: "mysql_rOOt_password"
+mysql_db: "wordpress"
+mysql_user: "user_name"
+mysql_password: "secret_passw0rd"
+
+# HTTP Settings
+http_host: "example.com"
+http_conf: "example.conf"
+http_port: "80"
+https_port: "443"

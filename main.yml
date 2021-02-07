@@ -1,0 +1,23 @@
+---
+################################################################################
+##                Ansible Install Lamp & Wordpress on Linux
+##            This is main playbook for running against a server.
+##         Configure parameters, variables and roles before running.
+##  Command: ansible-playbook -l host-01 -i inventory.ini -u username main.yml
+##           https://github.com/shahkamran/ansible-lamp-wordpress
+################################################################################
+- name: Install and configure Wordpress on LAMP
+  hosts: all
+  become: true
+  roles:
+  - install-lamp
+  - configure-apache
+  - configure-mysql
+  - create-mysql-db
+  - configure-firewall
+  - install-wordpress
+  - configure-wordpress
+#
+#
+#
+#

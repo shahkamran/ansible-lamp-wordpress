@@ -1,0 +1,27 @@
+---
+- name: Check if MySQL database {{ mysql_db }} exists
+  shell: mysql -e 'SHOW DATABASES;' --user=root --password="{{ mysql_root_password }}" | grep -c {{ mysql_db }}
+  register: dbstatus
+#  failed_when: dbstatus.rc == 1 or dbstatus.rc >= 2
+  ignore_errors: yes
+  changed_when: dbstatus.rc == 1 or dbstatus.rc >= 2    #dbstatus.failed == true
+
+- name: Creates MySQL database {{ mysql_db }}, if doesn't exist
+  mysql_db:
+    name: "{{ mysql_db }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  tags: [mysql]
+  when: dbstatus.stdout == "0"
+
+- name: Create MySQL user "{{ mysql_user }}" for WordPress
+  mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    priv: "{{ mysql_db }}.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  tags: [mysql]
+  when: dbstatus.stdout == "0"

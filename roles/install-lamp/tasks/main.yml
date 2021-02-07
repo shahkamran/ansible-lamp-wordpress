@@ -1,0 +1,22 @@
+---
+- name: Install prerequisites and update packages
+  apt:
+    name=aptitude
+    state=latest
+    force_apt_get=yes
+#    update_cache=yes
+  tags: [system]
+
+- name: Install LAMP Packages {{ lamp_modules_list }}
+  apt:
+    pkg={{ lamp_modules_list }}
+    state=latest
+#    update_cache=yes
+  tags: [system]
+
+- name: Install PHP Extensions {{ php_modules_list }}
+  apt:
+    pkg={{ php_modules_list }}
+    state=latest
+#    update_cache=yes
+  tags: [system]

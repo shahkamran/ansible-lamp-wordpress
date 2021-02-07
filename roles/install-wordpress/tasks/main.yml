@@ -1,0 +1,36 @@
+---
+- name: Download and unpack latest WordPress in "/var/www/{{ http_host }}"
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: "/var/www/{{ http_host }}"
+    remote_src: yes
+    creates: "/var/www/{{ http_host }}/wordpress"
+  tags: [wordpress]
+  when: not doc_root.stat.exists
+
+- name: Set ownership of "/var/www/{{ http_host }}" to www-data
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+  tags: [wordpress]
+
+- name: Set permissions for directories (/var/www/{{ http_host }}/wordpress/)
+  shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type d -exec chmod 750 {} \\;"
+#  file:
+#    path: /var/www/{{ http_host }}/wordpress/
+#    mode: 750
+#    recurse: yes
+#    state: directory
+  tags: [wordpress]
+
+- name: Set permissions for files (/var/www/{{ http_host }}/wordpress/)
+  shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type f -exec chmod 640 {} \\;"
+#  file:
+#    path: /var/www/{{ http_host }}/wordpress/
+#    mode: 640
+#    recurse: yes
+#    state: file
+  tags: [wordpress]

@@ -1,0 +1,67 @@
+---
+- name: Check if Document root exists - "/var/www/{{ http_host }}"
+  stat:
+    path: "/var/www/{{ http_host }}"
+  register: doc_root
+
+- name: Create document root if it does not exist - "/var/www/{{ http_host }}"
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    owner: "www-data"
+    group: "www-data"
+    mode: '0755'
+  tags: [apache]
+  when: not doc_root.stat.exists
+
+- name: Check if Apache VirtualHost exists - {{ http_conf }}
+  stat:
+    path: "/etc/apache2/sites-available/{{ http_conf }}"
+  register: virtual_host
+
+- name: Set up Apache VirtualHost - {{ http_conf }}
+  template:
+    src: "templates/apache.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ http_conf }}"
+  notify: Reload Apache
+  tags: [apache]
+  when: not virtual_host.stat.exists
+
+- name: Check if rewrite module is enabled
+  stat:
+    path: "/etc/apache2/mods-enabled/rewrite.load"
+  register: rewrite_module
+#- debug: var=rewrite_module
+
+- name: Enable rewrite module
+  shell: /usr/sbin/a2enmod rewrite
+  notify: Reload Apache
+  tags: [apache]
+  when: not rewrite_module.stat.exists
+
+- name: Check if new site {{ http_conf }} is enabled
+  shell: a2query -s {{ http_conf }} | grep -c enabled
+  register: a2site
+  ignore_errors: yes
+  changed_when: a2site.failed == true
+#  failed_when: a2site.rc > 0
+
+- name: Enable new site {{ http_conf }}
+  shell: /usr/sbin/a2ensite {{ http_conf }}
+  notify: Reload Apache
+  tags: [apache]
+  register: a2siteoutcome
+  when: a2site.stdout == "0"
+
+- name: Check if default site 000-default is enabled
+  shell: a2query -s 000-default | grep -c enabled
+  register: a2defsite
+  ignore_errors: yes
+  changed_when: a2defsite.failed == true
+
+
+- name: Disable default Apache site
+  shell: /usr/sbin/a2dissite 000-default.conf
+  notify: Restart Apache
+  tags: [apache]
+  when: not a2defsite.stdout == "0"
