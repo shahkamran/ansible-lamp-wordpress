@@ -12,7 +12,7 @@ Ansible heavily depends on Python and will require Python and associated depende
 ```
 sudo apt update && sudo apt install python3 python3-setuptools python3-pip -y
 #easy_install pip
-pip install ansible
+pip3 install ansible
 ```
 
 ### Set up Systems Inventory and Access
