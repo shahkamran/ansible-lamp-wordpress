@@ -10,7 +10,7 @@ This Ansible playbook has been tested on destination hosts running following Lin
 ### Ansible environment installed and working on your computer or control machine
 Ansible heavily depends on Python and will require Python and associated dependencies. On your client you can run following commands to install dependencies, for example.
 ```
-apt update && apt install python3 python3-setuptools python3-pip -y
+sudo apt update && sudo apt install python3 python3-setuptools python3-pip -y
 #easy_install pip
 pip install ansible
 ```
